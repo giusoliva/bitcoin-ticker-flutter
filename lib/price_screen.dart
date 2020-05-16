@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'coin_data.dart';
 
 class PriceScreen extends StatefulWidget {
   @override
@@ -7,7 +8,31 @@ class PriceScreen extends StatefulWidget {
 }
 
 class _PriceScreenState extends State<PriceScreen> {
-  String selectedCurrency = 'a';
+  String selectedCurrency = currenciesList[0];
+
+  List<DropdownMenuItem> getDropdownItems() {
+    List<DropdownMenuItem<String>> dropDownItems = [];
+
+    for (String currency in currenciesList) {
+      var newItem = DropdownMenuItem<String>(
+        value: currency,
+        child: Text(currency),
+      );
+      dropDownItems.add(newItem);
+    }
+
+    return dropDownItems;
+  }
+
+  // equivalente al metodo sopra ma usa funziona map di List per provare
+  List<DropdownMenuItem> getDropdownItemsWithMap() {
+    return currenciesList
+        .map((item) => DropdownMenuItem<String>(
+              value: item,
+              child: Text(item),
+            ))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,16 +72,7 @@ class _PriceScreenState extends State<PriceScreen> {
             color: Colors.lightBlue,
             child: DropdownButton<String>(
                 value: selectedCurrency,
-                items: [
-                  DropdownMenuItem<String>(
-                    value: 'a',
-                    child: Text('a'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: 'b',
-                    child: Text('b'),
-                  ),
-                ],
+                items: getDropdownItems(),
                 onChanged: (value) {
                   setState(() {
                     selectedCurrency = value;
